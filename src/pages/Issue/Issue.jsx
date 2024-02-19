@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { IconClose, IconOpen } from "../../components";
 import { useState } from "react";
+import { formatDistance } from 'date-fns';
 
 const Issue = () => {
   const [filter, setFilter] = useState("open");
@@ -95,7 +96,9 @@ const Issue = () => {
                   <div className="space-x-1 text-sm text-gray-500">
                     <span className="">#{issue?.number}</span>
                     <span className="">{issue?.state}</span>
-                    <span className="">10 hours ago</span>
+                    <span className="">{formatDistance(new Date(issue.created_at), new Date(), {
+                        addSuffix: true,
+                      })}</span>
                     <span className="">by {issue?.user?.login}</span>
                   </div>
                 </div>
