@@ -5,8 +5,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
-      <div className=""></div>
-      <div className="max-w-6xl mx-auto my-6">
+      <div className="max-w-6xl mx-auto my-6 px-3">
         <Outlet />
       </div>
     </div>

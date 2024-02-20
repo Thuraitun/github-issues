@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IconClose, IconOpen } from "../../components";
 import { useState } from "react";
 import { formatDistance } from 'date-fns';
+import "../../github-markdown.css"
 
 const Issue = () => {
   const [filter, setFilter] = useState("open");
@@ -48,14 +49,14 @@ const Issue = () => {
   return (
     <div className="">
       {/* loading statement */}
-      {isLoading && <div className="text-3xl text-red-500">Loading...</div>}
+      {isLoading && <div className="text-3xl text-red-500 my-40 text-center">Loading...</div>}
 
       {isSuccess && (
         <div className="border-2 rounded-lg">
           <div className="p-4 bg-gray-100">
-            <h1 className="text-xl mb-2 text-blue-600 font-bold">
+            <a href="https://github.com/facebook/create-react-app" className="text-xl mb-3 text-blue-600 font-bold">
               facebook/create-react-app
-            </h1>
+            </a>
 
             <div className="flex space-x-2">
               <button
@@ -81,14 +82,14 @@ const Issue = () => {
           </div>
 
           {issues.map((issue) => (
-            <div key={issue.id} className="border p-4 flex justify-between">
+            <div key={issue.id} className="border p-4 flex justify-between items-center">
               <div className="flex space-x-2">
                 {issue?.state === "open" && <IconOpen />}
                 {issue?.state === "closed" && <IconClose />}
 
                 <div className="">
                   <Link
-                    to={`issue/1`}
+                    to={`issue/${issue?.number}`}
                     className="font-bold hover:text-blue-600"
                   >
                     {issue?.title}
@@ -105,7 +106,7 @@ const Issue = () => {
               </div>
               {issue.comments > 0 && (
                 <Link
-                  to={`issue/1`}
+                  to={`issue/${issue?.number}`}
                   className="flex space-x-1 hover:text-blue-500 hover:font-bold"
                 >
                   <span className="">

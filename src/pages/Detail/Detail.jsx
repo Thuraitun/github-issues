@@ -1,70 +1,88 @@
+import axios from "axios";
+import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+import { formatDistance } from "date-fns";
+import { Comments } from "../../components";
+import ReactMarkdown from "react-markdown";
+
 const Detail = () => {
+  const { id } = useParams();
+
+  const fetchIssue = async () => {
+    const { data } = await axios.get(
+      `https://api.github.com/repos/facebook/create-react-app/issues/${id}`
+    );
+    return data;
+  };
+
+  const {
+    isLoading,
+    isSuccess,
+    data: issue,
+  } = useQuery(["issue", id], fetchIssue);
+
   return (
     <div>
-      <div className="flex space-x-2 text-2xl">
-        <h1 className="font-bold">[DevTools] Improve named hooks detection</h1>
-        <span className="">#43535</span>
-      </div>
+      {/* loading statement */}
+      {isLoading && (
+        <div className="text-3xl text-red-500 my-40 text-center">
+          Loading...
+        </div>
+      )}
 
-      <div className="space-x-1 text-sm text-gray-500">
-        <span className="font-bold">Thurai</span>
-        <span className="">opened this issus</span>
-        <span className="">10 hours ago</span>
-      </div>
-
-      <div className="my-5">
-        <div className="flex space-x-3">
-          <div className="">
-            <img className="w-[40px]" src="https://imgs.search.brave.com/9wsPg1BSWzO5K59V4ufvgT9F1w6RLsMlhyeppTZoLWQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5mbGF0aWNvbi5j/b20vZGlzdC9taW4v/aW1nL2ZpbHRlcnMv/Z3JhZGllbnQuc3Zn.svg" alt="" />
+      {isSuccess && (
+        <div className="">
+          <div className="flex space-x-2 text-2xl">
+            <h1 className="font-bold">{issue?.title}</h1>
+            <span className="">#{issue?.number}</span>
           </div>
-          <div className="border-2 w-full rounded-lg">
-            <div className="space-x-1 text-sm  p-4 border-b-2">
-              <span className="font-bold">Thurai</span>
-              <span className="">commented</span>
-              <span className="">10 hours ago</span>
-            </div>
-            <div className="p-4">
-                <p className="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos blanditiis vitae aspernatur mollitia nemo ad quaerat similique placeat culpa cum ipsum eveniet error magni laboriosam, aperiam vel nisi perferendis adipisci!</p>
+
+          <div className="space-x-1 text-sm text-gray-500">
+            <a href={issue?.user?.html_url} className="font-bold">{issue?.user?.login}</a>
+            <span className="">opened this issus</span>
+            <span className="">
+              {formatDistance(new Date(issue.created_at), new Date(), {
+                addSuffix: true,
+              })}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* For Question */}
+      {isSuccess && (
+        <div className="my-5">
+          <div className="flex space-x-3">
+            <a href={issue?.user?.html_url} className="">
+              <img
+                className="w-[50px] h-[50px] rounded-full"
+                src={issue?.user?.avatar_url}
+                alt=""
+              />
+            </a>
+            <div className="border-2 w-full rounded-lg">
+              <div className="space-x-1 text-sm  p-4 border-b-2 bg-gray-100">
+                <a href={issue?.user?.html_url} className="font-bold">{issue?.user?.login}</a>
+                <span className="">commented</span>
+                <span className="">
+                  {formatDistance(new Date(issue.created_at), new Date(), {
+                    addSuffix: true,
+                  })}
+                </span>
+              </div>
+              <div className="p-4 w-full markdown-body">
+                <ReactMarkdown children={issue?.body} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="my-5">
-        <div className="flex space-x-3">
-          <div className="">
-            <img className="w-[40px]" src="https://imgs.search.brave.com/9wsPg1BSWzO5K59V4ufvgT9F1w6RLsMlhyeppTZoLWQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5mbGF0aWNvbi5j/b20vZGlzdC9taW4v/aW1nL2ZpbHRlcnMv/Z3JhZGllbnQuc3Zn.svg" alt="" />
-          </div>
-          <div className="border-2 w-full rounded-lg">
-            <div className="space-x-1 text-sm  p-4 border-b-2">
-              <span className="font-bold">Thurai</span>
-              <span className="">commented</span>
-              <span className="">10 hours ago</span>
-            </div>
-            <div className="p-4">
-                <p className="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos blanditiis vitae aspernatur mollitia nemo ad quaerat similique placeat culpa cum ipsum eveniet error magni laboriosam, aperiam vel nisi perferendis adipisci!</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {isSuccess && <div className="border-b"></div>}
 
-      <div className="my-5">
-        <div className="flex space-x-3">
-          <div className="">
-            <img className="w-[40px]" src="https://imgs.search.brave.com/9wsPg1BSWzO5K59V4ufvgT9F1w6RLsMlhyeppTZoLWQ/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5mbGF0aWNvbi5j/b20vZGlzdC9taW4v/aW1nL2ZpbHRlcnMv/Z3JhZGllbnQuc3Zn.svg" alt="" />
-          </div>
-          <div className="border-2 w-full rounded-lg">
-            <div className="space-x-1 text-sm  p-4 border-b-2">
-              <span className="font-bold">Thurai</span>
-              <span className="">commented</span>
-              <span className="">10 hours ago</span>
-            </div>
-            <div className="p-4">
-                <p className="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos blanditiis vitae aspernatur mollitia nemo ad quaerat similique placeat culpa cum ipsum eveniet error magni laboriosam, aperiam vel nisi perferendis adipisci!</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* For comments */}
+      {isSuccess && <Comments issueNumber={issue?.number} />}
+
     </div>
   );
 };
