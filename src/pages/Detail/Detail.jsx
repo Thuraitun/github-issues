@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { formatDistance } from "date-fns";
-import { Comments } from "../../components";
+import { Comments, Loading } from "../../components";
 import ReactMarkdown from "react-markdown";
 
 const Detail = () => {
@@ -25,14 +25,12 @@ const Detail = () => {
     <div>
       {/* loading statement */}
       {isLoading && (
-        <div className="text-3xl text-red-500 my-40 text-center">
-          Loading...
-        </div>
+        <Loading />
       )}
 
       {isSuccess && (
         <div className="">
-          <div className="flex space-x-2 text-2xl">
+          <div className="md:flex md:space-x-2 text-2xl">
             <h1 className="font-bold">{issue?.title}</h1>
             <span className="">#{issue?.number}</span>
           </div>
@@ -52,7 +50,7 @@ const Detail = () => {
       {/* For Question */}
       {isSuccess && (
         <div className="my-5">
-          <div className="flex space-x-3">
+          <div className="space-y-2 md:space-y-0 md:flex md:space-x-3">
             <a href={issue?.user?.html_url} className="">
               <img
                 className="w-[50px] h-[50px] rounded-full"

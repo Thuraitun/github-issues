@@ -21,7 +21,7 @@ const Comments = ({ issueNumber }) => {
     <div className="my-5">
       {isSuccess &&
         comments.map((comment) => (
-          <div key={comment?.id} className="flex space-x-3 mb-2">
+          <div key={comment?.id} className="space-y-2 md:space-y-0 md:flex md:space-x-3 mb-2">
             <a href={comment?.user?.html_url} className="">
               <img
                 className="w-[50px] h-[50px] rounded-full"
