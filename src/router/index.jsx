@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import { Detail, Issue } from "../pages";
+import { Detail, Issue, NoFound } from "../pages";
 
   const router = createBrowserRouter([
     {
@@ -14,6 +14,10 @@ import { Detail, Issue } from "../pages";
         {
           path: "/issue/:id",
           element: <Detail />
+        },
+        {
+          path: "*",
+          element: <NoFound />
         }
       ]
     },
